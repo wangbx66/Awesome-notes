@@ -12,7 +12,10 @@ The colocation of frequent words with other words are meaningless. Hence the mod
 
 ## 2015 T2V Notes
 ### LDA
-It firstly conduct LDA to get the topics.
+It firstly conduct LDA to get the topics. LDA is a generative model which assumes the following generative process
+1. It first draw a \theta from dir(\alpha) for each document. \theta is the categorical variable which decides the probability distribution the topic a word would belongs to
+2. It then draw a \fi from dir(\beta) for each topics. \fi is the categorical variable which decides the probability distribution over words which represents the topic
+3. For the generation of each document, repeat the following: generate a topic according to \theta, then a word according to the \fi that corresponds to the previously generated topic.
 
 ### T2V Network
 Take the skip-gram model in W2V. Each time it tries to predict the surrounding words using the current word, it also takes into consider the topic associated with the current word as a second input. Both inputs are embedded and concatenated with each other before fed into the hidden layer. The embeddings of both topics and words are learned in this way.
