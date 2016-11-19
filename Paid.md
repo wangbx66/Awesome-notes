@@ -21,6 +21,18 @@ Take the skip-gram model in W2V. Each time it tries to predict the surrounding w
 ### 大体上是LDA,但是里面的词都向量化了
 
 ## Doc2Vec Notes
-
 The most naive way: just learn W2V and average all words in the paragraph to yield the paragraph vector.  
 Instead we make it a little bit subtler. Recall that in c-bow each word in the paragraph is predicted using the context i.e. the k words surrounding it. We treat the paragraph itself to be an additional word which is the context of all the words of that paragraph. Here, the document is represented by its ID and is mapped through an embedding layer.
+
+## Tweet2Vec
+### Make It Character Based
+Tweets contains so many words that's not in a regular "dictionary". Those customized words would greatly affect the performance of a word based model (basically all models) e.g. "great" and "greeeeeat" is very similar semantically, but treated differently and, the later would not be well modeled since it's frequency is relatively low. In Tweet2Vec it would process the whole Tweet character-by-character, resulting a more robust model which handles the noisy induced by customized words.
+
+### Bi-GRU
+It predicts the hastags of the tweet. It firstly apply a Bi-GRU to the tweet, character by character, and get the output vectors of both the hidden layers. Note that the output of the hidden layer is the output value of the GRU after processing the last character of the tweet. After that it concatenate both the vector into one and apply logistic regressions to get the probility that a tag is associated with this tweet. Note it output L many probabilities, if there's L many possible hashtags for a tweet.
+
+### Experiment Details
+1. Process only one language, in the paper, English.
+2. Remove those very frequent hasgtags which is likely to be auto-generated. Also those infrequent.
+3. The learning rate is halved everytime the validation set precision increases by less than 0.01 % from one epoch to the next
+
