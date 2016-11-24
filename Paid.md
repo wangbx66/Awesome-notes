@@ -10,6 +10,14 @@ Plain training process tries to maximize the probability of predicting the corre
 ### Subsample Frequent Words
 The colocation of frequent words with other words are meaningless. Hence the model discard each word with probability (1 - f**(-1/2)).
 
+## Paid
+### Extract Phrases
+Just require TMI to be within the top n many bigrams. TMI is Pr(a,b)/Pr(a)Pr(b). Also require characters of each word, non-stop word and non adv/determiner POS.
+
+### Prioritizing Issue
+
+
+
 ## 2015 T2V Notes
 ### LDA
 It firstly conduct LDA to get the topics. LDA is a generative model which assumes the following generative process
@@ -19,6 +27,11 @@ It firstly conduct LDA to get the topics. LDA is a generative model which assume
 
 ### T2V Network
 Take the skip-gram model in W2V. Each time it tries to predict the surrounding words using the current word, it also takes into consider the topic associated with the current word as a second input. Both inputs are embedded and concatenated with each other before fed into the hidden layer. The embeddings of both topics and words are learned in this way.
+
+### Code Details
+It first runs CountVectorizer.fit_transmit() to transmit a list of documents/strings into a sparse matrix and then fed into LDA. Afterwise it extracts the components of LDA which is a n_topic by n_terms matrix for term distribution within topics. Then it calculates the greatest value of each term over all topics and associate that topic to the term.
+
+After that it tags the same set of documents, such that each term is tagged as the associated topic. Then call gensim.models.doc2vec and train that list of tagged documents would be fine. Here we hacked the code of doc2vec, where the tags can be arbitrary. For its originally the tags are just the document IDs.
 
 ## 2016 Topicvec Notes
 ### 大体上是LDA,但是里面的词都向量化了
