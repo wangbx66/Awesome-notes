@@ -37,7 +37,7 @@ It first runs CountVectorizer.fit_transmit() to transmit a list of documents/str
 After that it tags the same set of documents, such that each term is tagged as the associated topic. Then call gensim.models.doc2vec and train that list of tagged documents would be fine. Here we hacked the code of doc2vec, where the tags can be arbitrary. For its originally the tags are just the document IDs.
 
 ## 2016 Topicvec Notes
-### 大体上是LDA,但是里面的词都向量化了
+### It's basically an LDA. Within the model the words are embedded.
 
 ## Doc2Vec Notes
 The most naive way: just learn W2V and average all words in the paragraph to yield the paragraph vector.  
